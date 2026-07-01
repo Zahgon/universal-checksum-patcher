@@ -1,0 +1,47 @@
+{
+  "games": {
+    "hoi4.exe": {
+      "sites": [
+        {
+          "id": "checksum_gate",
+          "anchor": "Active Mod Count:",
+          "find": "85 C0 0F 94 ?? E8",
+          "patchOffset": 0,
+          "expect": "85 C0",
+          "replace": "31 C0",
+          "requireInFunc": true,
+          "expectMatches": 1,
+          "note": "gameapplication.cpp checksum gate: test eax,eax -> xor eax,eax, forcing the setcc result (achievements allowed) true. Register byte wildcarded; anchored to the func that logs 'Active Mod Count:' so only the real gate matches."
+        }
+      ]
+    },
+    "eu4.exe": {
+      "sites": [
+        {
+          "id": "checksum_gate",
+          "find": "85 C0 0F 94 C3 E8",
+          "patchOffset": 0,
+          "expect": "85 C0",
+          "replace": "31 C0",
+          "requireInFunc": true,
+          "expectMatches": 2,
+          "note": "Legacy-preserving: eu4application.cpp + checksum-helper sites (test eax,eax; sete bl; call). Both patched test->xor, matching the original tool's behavior."
+        }
+      ]
+    },
+    "eu5.exe": {
+      "sites": [
+        {
+          "id": "can_get_achievements",
+          "find": "80 ?? ?? ?? ?? ?? 00 75 ?? 80 ?? ?? ?? ?? ?? 00 74 ?? 80 ?? ?? ?? ?? ?? 00 74 ?? 80 ?? ?? ?? ?? ?? 00",
+          "patchOffset": 7,
+          "expect": "75",
+          "replace": "EB",
+          "requireInFunc": true,
+          "expectMatches": 1,
+          "note": "CanGetAchievements game-state flag-chain (cmp byte[obj+off],0; jXX). First conditional jne -> jmp forces the function to always return al=1 (eligible), bypassing every flag and the checksum vcall."
+        }
+      ]
+    }
+  }
+}
