@@ -58,4 +58,3 @@ jobs:
           generate_release_notes: true
           files: |
             build/universal-checksum-patcher.exe
-            build/toolkit.exe
