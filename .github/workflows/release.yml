@@ -1,0 +1,61 @@
+name: Release
+
+# Every push to main (a merged PR) cuts a release IF the VERSION file names a tag
+# that doesn't exist yet. Bump VERSION in the PR to release; leave it to skip.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # create tags + releases via the built-in GITHUB_TOKEN
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history + tags, so the tag-exists check works
+
+      - name: Read version
+        id: ver
+        run: echo "tag=v$(tr -d '[:space:]' < VERSION)" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if this version was already released
+        id: check
+        run: |
+          if git rev-parse -q --verify "refs/tags/${{ steps.ver.outputs.tag }}" >/dev/null; then
+            echo "Tag ${{ steps.ver.outputs.tag }} already exists — bump VERSION to release. Skipping."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Go
+        if: steps.check.outputs.release == 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Test
+        if: steps.check.outputs.release == 'true'
+        run: make test
+
+      - name: Build Windows binaries
+        if: steps.check.outputs.release == 'true'
+        run: make build
+
+      - name: Create release
+        if: steps.check.outputs.release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: ${{ steps.ver.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            build/universal-checksum-patcher.exe
+            build/toolkit.exe
