@@ -1,12 +1,23 @@
-all: go-test build-ps
+BIN     := build
+PATCHER := $(BIN)/universal-checksum-patcher.exe
+TOOLKIT := $(BIN)/toolkit.exe
 
-build-bash:
-	@env GOOS=windows GOARCH=amd64 go build -o ./build/universal-checksum-patcher.exe *.go
-	@echo Successfully built universal-checksum-patcher.exe
+.PHONY: all test patcher toolkit build clean
 
-build-ps:
-	@powershell -Command "$$env:GOOS='windows'; $$env:GOARCH='amd64'; go build -o .\\build\\universal-checksum-patcher.exe ."
-	@echo Successfully built universal-checksum-patcher.exe
+all: test build
 
-go-test:
-	@go test -v ./...
+test:
+	@go test ./...
+
+build: patcher toolkit
+
+patcher:
+	@GOOS=windows GOARCH=amd64 go build -o $(PATCHER) ./cmd/patcher
+	@echo Built $(PATCHER)
+
+toolkit:
+	@GOOS=windows GOARCH=amd64 go build -o $(TOOLKIT) ./cmd/toolkit
+	@echo Built $(TOOLKIT)
+
+clean:
+	@rm -rf $(BIN)
