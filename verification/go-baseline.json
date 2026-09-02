@@ -1,0 +1,2039 @@
+{
+ "applySite": [
+  {
+   "count": 1,
+   "msg": "",
+   "name": "patch",
+   "rawChanged": true,
+   "rawSha": "31a003ad0e3740e4160364b02e91275847146f5a1b028d5b5c7d0217d643bbaa",
+   "rvas": [
+    4097
+   ],
+   "status": "patched"
+  },
+  {
+   "count": 0,
+   "msg": "",
+   "name": "notfound",
+   "rawChanged": false,
+   "rawSha": "f4a77ff61f5d026e4519806a8cff58be35a3e2a77646c74da446e9fd14a245fc",
+   "rvas": null,
+   "status": "not-found"
+  },
+  {
+   "count": 2,
+   "msg": "found 2 matches, expected 1",
+   "name": "ambiguous",
+   "rawChanged": false,
+   "rawSha": "7254abf77425af251bb76f0bc54da228b9d245198b57dc0657aff5004820c736",
+   "rvas": null,
+   "status": "ambiguous"
+  },
+  {
+   "count": 0,
+   "msg": "site g: expect byte 0 disagrees with find pattern",
+   "name": "expectMismatch",
+   "rawChanged": false,
+   "rawSha": "d6c8e5390193e126d32149b9818c7382a1783ada01a5799bed9e2bd1bec8e400",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "",
+   "name": "noPdata",
+   "rawChanged": false,
+   "rawSha": "d6c8e5390193e126d32149b9818c7382a1783ada01a5799bed9e2bd1bec8e400",
+   "rvas": null,
+   "status": "not-found"
+  },
+  {
+   "count": 0,
+   "msg": "bad pattern token \"ZZ\": strconv.ParseUint: parsing \"ZZ\": invalid syntax",
+   "name": "badFind",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "expect: bad byte token \"ZZ\": strconv.ParseUint: parsing \"ZZ\": invalid syntax",
+   "name": "badExpect",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "replace: bad byte token \"ZZ\": strconv.ParseUint: parsing \"ZZ\": invalid syntax",
+   "name": "badReplace",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "site g: empty expect/replace",
+   "name": "emptyExpect",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "site g: expect (1) and replace (2) must be the same length",
+   "name": "lenMismatch",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "site g: patchOffset+expect exceeds find pattern length",
+   "name": "offsetTooBig",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "site g: patchOffset+expect exceeds find pattern length",
+   "name": "negOffset",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "site g: expect byte 0 disagrees with find pattern",
+   "name": "expectDisagrees",
+   "rawChanged": false,
+   "rawSha": "90078bb88a3ea63a9e753c3564fd80cf4573f99f9098a1be491e5beca3babfdc",
+   "rvas": null,
+   "status": "error"
+  },
+  {
+   "count": 0,
+   "msg": "anchor \"Nope Anchor\" not referenced in code",
+   "name": "anchorMissing",
+   "rawChanged": false,
+   "rawSha": "d6c8e5390193e126d32149b9818c7382a1783ada01a5799bed9e2bd1bec8e400",
+   "rvas": null,
+   "status": "not-found"
+  },
+  {
+   "count": 1,
+   "msg": "",
+   "name": "defaultExpectMatches",
+   "rawChanged": true,
+   "rawSha": "c72cc737a960a5fd90049f99cb3c1fe6c7d39af8b85200cbbc2dd24db631686c",
+   "rvas": [
+    4097
+   ],
+   "status": "patched"
+  },
+  {
+   "count": 2,
+   "msg": "",
+   "name": "twoWantTwo",
+   "rawChanged": true,
+   "rawSha": "13ee2c7f4a3d4700ed8fb33bb02e79ac55c05a4677eb715404dbdb20ac57ee19",
+   "rvas": [
+    4096,
+    4103
+   ],
+   "status": "patched"
+  },
+  {
+   "count": 0,
+   "msg": "found 2 patched matches, expected 1 (partial/foreign patch?)",
+   "name": "partialPatched",
+   "rawChanged": false,
+   "rawSha": "13ee2c7f4a3d4700ed8fb33bb02e79ac55c05a4677eb715404dbdb20ac57ee19",
+   "rvas": null,
+   "status": "ambiguous"
+  },
+  {
+   "count": 0,
+   "msg": "",
+   "name": "alreadyPatched",
+   "rawChanged": false,
+   "rawSha": "c72cc737a960a5fd90049f99cb3c1fe6c7d39af8b85200cbbc2dd24db631686c",
+   "rvas": null,
+   "status": "already-patched"
+  },
+  {
+   "count": 0,
+   "msg": "no .text section",
+   "name": "noTextSection",
+   "rawChanged": false,
+   "rawSha": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b",
+   "rvas": null,
+   "status": "error"
+  }
+ ],
+ "findAll": [
+  {
+   "data": "AIXAEQ+FwCIPkA==",
+   "hits": [
+    1,
+    5
+   ],
+   "pat": "85 C0 ?? 0F"
+  },
+  {
+   "data": "kIXAD5TD6JA=",
+   "hits": [
+    0,
+    7
+   ],
+   "pat": "90"
+  },
+  {
+   "data": "AQID",
+   "hits": [
+    0,
+    1,
+    2
+   ],
+   "pat": "??"
+  },
+  {
+   "data": "AQID",
+   "hits": [
+    0,
+    1
+   ],
+   "pat": "?? ??"
+  },
+  {
+   "data": "kA==",
+   "hits": null,
+   "pat": "DE AD BE EF"
+  },
+  {
+   "data": "",
+   "hits": null,
+   "pat": "85 C0"
+  },
+  {
+   "data": "hQ==",
+   "hits": null,
+   "pat": "85 C0"
+  },
+  {
+   "data": "hcA=",
+   "hits": [
+    0
+   ],
+   "pat": "85 C0"
+  },
+  {
+   "data": "AAAA",
+   "hits": [
+    0,
+    1,
+    2
+   ],
+   "pat": "00"
+  }
+ ],
+ "loadConfigBadJSON": {
+  "err": "parse signatures (\u003cTMP\u003e): invalid character 'n' looking for beginning of object key string",
+  "srcIsPath": true
+ },
+ "loadConfigEmbedded": {
+  "cfg": {
+   "games": {
+    "eu4.exe": {
+     "sites": [
+      {
+       "id": "checksum_gate",
+       "find": "85 C0 0F 94 C3 E8",
+       "patchOffset": 0,
+       "expect": "85 C0",
+       "replace": "31 C0",
+       "requireInFunc": true,
+       "expectMatches": 2,
+       "note": "Legacy-preserving: eu4application.cpp + checksum-helper sites (test eax,eax; sete bl; call). Both patched test-\u003exor, matching the original tool's behavior."
+      }
+     ]
+    },
+    "eu5.exe": {
+     "sites": [
+      {
+       "id": "can_get_achievements",
+       "find": "80 ?? ?? ?? ?? ?? 00 75 ?? 80 ?? ?? ?? ?? ?? 00 74 ?? 80 ?? ?? ?? ?? ?? 00 74 ?? 80 ?? ?? ?? ?? ?? 00",
+       "patchOffset": 7,
+       "expect": "75",
+       "replace": "EB",
+       "requireInFunc": true,
+       "expectMatches": 1,
+       "note": "CanGetAchievements game-state flag-chain (cmp byte[obj+off],0; jXX). First conditional jne -\u003e jmp forces the function to always return al=1 (eligible), bypassing every flag and the checksum vcall."
+      }
+     ]
+    },
+    "hoi4.exe": {
+     "sites": [
+      {
+       "id": "checksum_gate",
+       "anchor": "Active Mod Count:",
+       "find": "85 C0 0F 94 ?? E8",
+       "patchOffset": 0,
+       "expect": "85 C0",
+       "replace": "31 C0",
+       "requireInFunc": true,
+       "expectMatches": 1,
+       "note": "gameapplication.cpp checksum gate: test eax,eax -\u003e xor eax,eax, forcing the setcc result (achievements allowed) true. Register byte wildcarded; anchored to the func that logs 'Active Mod Count:' so only the real gate matches."
+      }
+     ]
+    }
+   }
+  },
+  "src": "embedded"
+ },
+ "loadConfigMissingOverride": {
+  "err": "",
+  "src": "embedded"
+ },
+ "openImageErrors": [
+  {
+   "err": "read does-not-exist.exe: open does-not-exist.exe: no such file or directory",
+   "path": "does-not-exist.exe"
+  },
+  {
+   "err": "parse PE signatures.json: unrecognized PE machine: 0xa7b",
+   "path": "signatures.json"
+  },
+  {
+   "err": "read .: read .: is a directory",
+   "path": "."
+  }
+ ],
+ "overlay": [
+  {
+   "off": 0,
+   "origUnchanged": [
+    133,
+    192,
+    15,
+    148,
+    -1,
+    232
+   ],
+   "out": [
+    49,
+    192,
+    15,
+    148,
+    -1,
+    232
+   ],
+   "pat": "85 C0 0F 94 ?? E8",
+   "repl": "McA="
+  },
+  {
+   "off": 4,
+   "origUnchanged": [
+    133,
+    192,
+    15,
+    148,
+    -1,
+    232
+   ],
+   "out": [
+    133,
+    192,
+    15,
+    148,
+    170,
+    187
+   ],
+   "pat": "85 C0 0F 94 ?? E8",
+   "repl": "qrs="
+  },
+  {
+   "off": 5,
+   "origUnchanged": [
+    133,
+    192,
+    15,
+    148,
+    -1,
+    232
+   ],
+   "out": [
+    133,
+    192,
+    15,
+    148,
+    -1,
+    170
+   ],
+   "pat": "85 C0 0F 94 ?? E8",
+   "repl": "qrvM"
+  },
+  {
+   "off": 0,
+   "origUnchanged": [
+    133,
+    192
+   ],
+   "out": [
+    133,
+    192
+   ],
+   "pat": "85 C0",
+   "repl": ""
+  },
+  {
+   "off": 7,
+   "origUnchanged": [
+    128,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    117,
+    -1,
+    128
+   ],
+   "out": [
+    128,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    0,
+    235,
+    -1,
+    128
+   ],
+   "pat": "80 ?? ?? ?? ?? ?? 00 75 ?? 80",
+   "repl": "6w=="
+  }
+ ],
+ "parseBytes": [
+  {
+   "bytes": [
+    133,
+    192
+   ],
+   "err": "",
+   "in": "85 C0"
+  },
+  {
+   "bytes": [],
+   "err": "",
+   "in": ""
+  },
+  {
+   "bytes": [],
+   "err": "",
+   "in": "   "
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"ZZ\": strconv.ParseUint: parsing \"ZZ\": invalid syntax",
+   "in": "85 ZZ"
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"??\": strconv.ParseUint: parsing \"??\": invalid syntax",
+   "in": "??"
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"0x85\": strconv.ParseUint: parsing \"0x85\": invalid syntax",
+   "in": "0x85"
+  },
+  {
+   "bytes": [
+    255
+   ],
+   "err": "",
+   "in": "FF"
+  },
+  {
+   "bytes": [
+    255
+   ],
+   "err": "",
+   "in": "ff"
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"100\": strconv.ParseUint: parsing \"100\": value out of range",
+   "in": "100"
+  },
+  {
+   "bytes": [
+    0
+   ],
+   "err": "",
+   "in": "0"
+  },
+  {
+   "bytes": [
+    0
+   ],
+   "err": "",
+   "in": "00"
+  },
+  {
+   "bytes": [
+    49,
+    192
+   ],
+   "err": "",
+   "in": "31 C0"
+  },
+  {
+   "bytes": [
+    222,
+    173,
+    190,
+    239
+   ],
+   "err": "",
+   "in": "DE AD BE EF"
+  },
+  {
+   "bytes": [
+    153,
+    153
+   ],
+   "err": "",
+   "in": "99 99"
+  },
+  {
+   "bytes": [
+    204
+   ],
+   "err": "",
+   "in": "CC"
+  },
+  {
+   "bytes": [
+    133,
+    192
+   ],
+   "err": "",
+   "in": "85\tC0"
+  },
+  {
+   "bytes": [
+    133,
+    192
+   ],
+   "err": "",
+   "in": " 85  C0 "
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"-1\": strconv.ParseUint: parsing \"-1\": invalid syntax",
+   "in": "-1"
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"+1\": strconv.ParseUint: parsing \"+1\": invalid syntax",
+   "in": "+1"
+  },
+  {
+   "bytes": null,
+   "err": "bad byte token \"1G\": strconv.ParseUint: parsing \"1G\": invalid syntax",
+   "in": "1G"
+  }
+ ],
+ "parsePattern": [
+  {
+   "err": "",
+   "in": "85 C0 ?? 0F",
+   "pat": [
+    133,
+    192,
+    -1,
+    15
+   ]
+  },
+  {
+   "err": "",
+   "in": "85 C0",
+   "pat": [
+    133,
+    192
+   ]
+  },
+  {
+   "err": "",
+   "in": "??",
+   "pat": [
+    -1
+   ]
+  },
+  {
+   "err": "",
+   "in": "?",
+   "pat": [
+    -1
+   ]
+  },
+  {
+   "err": "empty pattern",
+   "in": "",
+   "pat": null
+  },
+  {
+   "err": "empty pattern",
+   "in": "   ",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"ZZ\": strconv.ParseUint: parsing \"ZZ\": invalid syntax",
+   "in": "85 ZZ",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"0x85\": strconv.ParseUint: parsing \"0x85\": invalid syntax",
+   "in": "0x85",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"-1\": strconv.ParseUint: parsing \"-1\": invalid syntax",
+   "in": "85 -1",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"+1\": strconv.ParseUint: parsing \"+1\": invalid syntax",
+   "in": "85 +1",
+   "pat": null
+  },
+  {
+   "err": "",
+   "in": "FF",
+   "pat": [
+    255
+   ]
+  },
+  {
+   "err": "",
+   "in": "ff",
+   "pat": [
+    255
+   ]
+  },
+  {
+   "err": "",
+   "in": "Ff",
+   "pat": [
+    255
+   ]
+  },
+  {
+   "err": "bad pattern token \"100\": strconv.ParseUint: parsing \"100\": value out of range",
+   "in": "100",
+   "pat": null
+  },
+  {
+   "err": "",
+   "in": "0",
+   "pat": [
+    0
+   ]
+  },
+  {
+   "err": "",
+   "in": "00",
+   "pat": [
+    0
+   ]
+  },
+  {
+   "err": "",
+   "in": "000",
+   "pat": [
+    0
+   ]
+  },
+  {
+   "err": "",
+   "in": "8",
+   "pat": [
+    8
+   ]
+  },
+  {
+   "err": "",
+   "in": "85\tC0\n?? 0F",
+   "pat": [
+    133,
+    192,
+    -1,
+    15
+   ]
+  },
+  {
+   "err": "",
+   "in": " 85  C0 ",
+   "pat": [
+    133,
+    192
+   ]
+  },
+  {
+   "err": "",
+   "in": "85 C0 ?? 0F 94 ?? E8",
+   "pat": [
+    133,
+    192,
+    -1,
+    15,
+    148,
+    -1,
+    232
+   ]
+  },
+  {
+   "err": "",
+   "in": "85 C0 0F 94 C3 E8",
+   "pat": [
+    133,
+    192,
+    15,
+    148,
+    195,
+    232
+   ]
+  },
+  {
+   "err": "bad pattern token \"GG\": strconv.ParseUint: parsing \"GG\": invalid syntax",
+   "in": "GG",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"1G\": strconv.ParseUint: parsing \"1G\": invalid syntax",
+   "in": "1G",
+   "pat": null
+  },
+  {
+   "err": "bad pattern token \"??C0\": strconv.ParseUint: parsing \"??C0\": invalid syntax",
+   "in": "85 ??C0",
+   "pat": null
+  },
+  {
+   "err": "",
+   "in": "?? ??",
+   "pat": [
+    -1,
+    -1
+   ]
+  },
+  {
+   "err": "empty pattern",
+   "in": " ",
+   "pat": null
+  },
+  {
+   "err": "",
+   "in": "85\u000bC0",
+   "pat": [
+    133,
+    192
+   ]
+  },
+  {
+   "err": "",
+   "in": "85　C0",
+   "pat": [
+    133,
+    192
+   ]
+  },
+  {
+   "err": "bad pattern token \"0X85\": strconv.ParseUint: parsing \"0X85\": invalid syntax",
+   "in": "0X85",
+   "pat": null
+  },
+  {
+   "err": "empty pattern",
+   "in": " ",
+   "pat": null
+  },
+  {
+   "err": "empty pattern",
+   "in": "\n",
+   "pat": null
+  },
+  {
+   "err": "",
+   "in": "85 C0 ",
+   "pat": [
+    133,
+    192
+   ]
+  },
+  {
+   "err": "bad pattern token \"-0\": strconv.ParseUint: parsing \"-0\": invalid syntax",
+   "in": "-0",
+   "pat": null
+  }
+ ],
+ "patchImage": [
+  {
+   "changed": false,
+   "name": "discardOnAmbig",
+   "patchedNil": true,
+   "patchedSha": "\u003cnil\u003e",
+   "rawUntouched": true,
+   "results": [
+    {
+     "count": 1,
+     "id": "g",
+     "msg": "",
+     "rvas": [
+      4097
+     ],
+     "status": "patched"
+    },
+    {
+     "count": 2,
+     "id": "bad",
+     "msg": "found 2 matches, expected 1",
+     "rvas": null,
+     "status": "ambiguous"
+    }
+   ]
+  },
+  {
+   "changed": false,
+   "name": "discardOnNotFound",
+   "patchedNil": true,
+   "patchedSha": "\u003cnil\u003e",
+   "rawUntouched": true,
+   "results": [
+    {
+     "count": 1,
+     "id": "g",
+     "msg": "",
+     "rvas": [
+      4097
+     ],
+     "status": "patched"
+    },
+    {
+     "count": 0,
+     "id": "missing",
+     "msg": "",
+     "rvas": null,
+     "status": "not-found"
+    }
+   ]
+  },
+  {
+   "changed": true,
+   "name": "allGood",
+   "patchedNil": false,
+   "patchedSha": "ebfe99509b750b09594c3faaa1fe36d06bba45f05f76c49172837f087ca7e0ad",
+   "rawUntouched": true,
+   "results": [
+    {
+     "count": 1,
+     "id": "g",
+     "msg": "",
+     "rvas": [
+      4097
+     ],
+     "status": "patched"
+    }
+   ]
+  },
+  {
+   "changed": false,
+   "name": "allAlready",
+   "patchedNil": true,
+   "patchedSha": "\u003cnil\u003e",
+   "rawUntouched": true,
+   "results": [
+    {
+     "count": 0,
+     "id": "g",
+     "msg": "",
+     "rvas": null,
+     "status": "already-patched"
+    }
+   ]
+  },
+  {
+   "changed": false,
+   "name": "noSites",
+   "patchedNil": true,
+   "patchedSha": "\u003cnil\u003e",
+   "rawUntouched": true,
+   "results": []
+  }
+ ],
+ "pe": {
+  "anchors": [
+   {
+    "anchor": "Active Mod Count:",
+    "funcs": [],
+    "nFuncs": 0,
+    "nVAs": 0,
+    "nXrefs": 0,
+    "vas": [],
+    "xrefs": []
+   },
+   {
+    "anchor": "runtime",
+    "funcs": [
+     {
+      "begin": 272000,
+      "end": 272333
+     },
+     {
+      "begin": 286560,
+      "end": 287258
+     }
+    ],
+    "nFuncs": 2,
+    "nVAs": 3581,
+    "nXrefs": 2,
+    "vas": [
+     5369763236,
+     5369789787,
+     5369847413,
+     5369847441,
+     5369847458,
+     5369850083,
+     5369850175,
+     5369850193,
+     5369850302,
+     5369850328,
+     5369850353,
+     5369850379,
+     5369850405,
+     5369850430,
+     5369850458,
+     5369850485,
+     5369850512,
+     5369854008,
+     5369854021,
+     5369854040
+    ],
+    "xrefs": [
+     272283,
+     287192
+    ]
+   },
+   {
+    "anchor": "GOMAXPROCS",
+    "funcs": [],
+    "nFuncs": 0,
+    "nVAs": 0,
+    "nXrefs": 0,
+    "vas": [],
+    "xrefs": []
+   },
+   {
+    "anchor": "toolkit",
+    "funcs": [],
+    "nFuncs": 0,
+    "nVAs": 0,
+    "nXrefs": 0,
+    "vas": [],
+    "xrefs": []
+   },
+   {
+    "anchor": "",
+    "panic": "runtime error: slice bounds out of range [846849:846848]"
+   },
+   {
+    "anchor": "nonexistent-anchor-xyz",
+    "funcs": [],
+    "nFuncs": 0,
+    "nVAs": 0,
+    "nXrefs": 0,
+    "vas": [],
+    "xrefs": []
+   },
+   {
+    "anchor": "discover",
+    "funcs": [],
+    "nFuncs": 0,
+    "nVAs": 0,
+    "nXrefs": 0,
+    "vas": [],
+    "xrefs": []
+   }
+  ],
+  "base": 5368709120,
+  "cStringAt": [
+   {
+    "s": "",
+    "va": 0
+   },
+   {
+    "s": "",
+    "va": 5368709120
+   },
+   {
+    "s": "",
+    "va": 5368713216
+   },
+   {
+    "s": "",
+    "va": 5369561088
+   },
+   {
+    "s": "",
+    "va": 5369561089
+   },
+   {
+    "s": "u",
+    "va": 5369561104
+   },
+   {
+    "s": "m",
+    "va": 5369561152
+   },
+   {
+    "s": "",
+    "va": 5369561344
+   },
+   {
+    "s": "",
+    "va": 5369562112
+   },
+   {
+    "s": "",
+    "va": 5369565184
+   },
+   {
+    "s": "",
+    "va": 5369626624
+   }
+  ],
+  "findGatesAll": {
+   "head": [
+    {
+     "bytes": "hcAPlMJI",
+     "fnBegin": 131296,
+     "fnEnd": 131753,
+     "nStrings": 3,
+     "rva": 131558,
+     "strings": [
+      "runtime: VirtualFree of /cgo/go-to-c-calls:calls/gc/heap/objects:objects/sched/latencies:seconds",
+      " bytes failed with errno=runtime: VirtualAlloc of /sched/gomaxprocs:threadsmissing type in final",
+      "runtime: failed to decommit pages/cpu/classes/gc/pause:cpu-seconds/cpu/classes/gc/total:cpu-seco"
+     ]
+    },
+    {
+     "bytes": "hcAPlMJI",
+     "fnBegin": 131776,
+     "fnEnd": 132392,
+     "nStrings": 3,
+     "rva": 132064,
+     "strings": [
+      "runtime: VirtualAlloc of /sched/gomaxprocs:threadsmissing type in finalizerremaining pointer buf",
+      " bytes failed with errno=runtime: VirtualAlloc of /sched/gomaxprocs:threadsmissing type in final",
+      "runtime: failed to commit pages/memory/classes/heap/free:bytes/memory/classes/os-stacks:bytes (c"
+     ]
+    },
+    {
+     "bytes": "hcAPlcBI",
+     "fnBegin": 216032,
+     "fnEnd": 216229,
+     "nStrings": 0,
+     "rva": 216195,
+     "strings": null
+    },
+    {
+     "bytes": "hMAPlcDo",
+     "fnBegin": 351360,
+     "fnEnd": 353807,
+     "nStrings": 19,
+     "rva": 351954,
+     "strings": [
+      " idleprocs= gcwaiting= schedtick= timerslen= mallocing=float64nan1float64nan2float64nan3float32n",
+      " threads=: status= blocked= lockedg=atomicor8 runtime= m-\u003ecurg=(unknown)total \u003c 0traceback (leak",
+      " spinningthreads=taggedPointerPackunknown caller pcstack: frame={sp:trace arena allocruntime: na",
+      " needspinning= schedticks=[ randinit twicestore64 failedsemaRoot queuebad allocCountbad span sta",
+      " runqueue= stopwait= runqsize= gfreecnt= throwing= spinning=atomicand8float64nanfloat32nanExcept",
+      " gcwaiting= schedtick= timerslen= mallocing=float64nan1float64nan2float64nan3float32nan2GOTRACEB",
+      " nmidlelocked= needspinning= schedticks=[ randinit twicestore64 failedsemaRoot queuebad allocCou",
+      " stopwait= runqsize= gfreecnt= throwing= spinning=atomicand8float64nanfloat32nanException  ptrSi"
+     ]
+    },
+    {
+     "bytes": "hMAPlcDo",
+     "fnBegin": 351360,
+     "fnEnd": 353807,
+     "nStrings": 19,
+     "rva": 352043,
+     "strings": [
+      " idleprocs= gcwaiting= schedtick= timerslen= mallocing=float64nan1float64nan2float64nan3float32n",
+      " threads=: status= blocked= lockedg=atomicor8 runtime= m-\u003ecurg=(unknown)total \u003c 0traceback (leak",
+      " spinningthreads=taggedPointerPackunknown caller pcstack: frame={sp:trace arena allocruntime: na",
+      " needspinning= schedticks=[ randinit twicestore64 failedsemaRoot queuebad allocCountbad span sta",
+      " runqueue= stopwait= runqsize= gfreecnt= throwing= spinning=atomicand8float64nanfloat32nanExcept",
+      " gcwaiting= schedtick= timerslen= mallocing=float64nan1float64nan2float64nan3float32nan2GOTRACEB",
+      " nmidlelocked= needspinning= schedticks=[ randinit twicestore64 failedsemaRoot queuebad allocCou",
+      " stopwait= runqsize= gfreecnt= throwing= spinning=atomicand8float64nanfloat32nanException  ptrSi"
+     ]
+    },
+    {
+     "bytes": "hcAPlMBI",
+     "fnBegin": 711232,
+     "fnEnd": 711277,
+     "nStrings": 0,
+     "rva": 711259,
+     "strings": null
+    },
+    {
+     "bytes": "hcAPlcJI",
+     "fnBegin": 744960,
+     "fnEnd": 752775,
+     "nStrings": 2,
+     "rva": 747468,
+     "strings": [
+      "reflect.Value.UintGetExitCodeProcessvalue out of rangereflect.Value.Elemreflect.Value.TypeGetSid",
+      "reflect.Value.Intwinreadlinkvolumeinvalid bit size unknown type kindreflect: call of reflect.Val"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 813527,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 813638,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 813742,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 813847,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 813958,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814062,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814167,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814278,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814382,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814487,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814598,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814702,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814807,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 814918,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 815022,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcIP",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 815127,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 815238,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    },
+    {
+     "bytes": "hcAPlcKE",
+     "fnBegin": 811712,
+     "fnEnd": 823706,
+     "nStrings": 7,
+     "rva": 815342,
+     "strings": [
+      "optional header size is less than optional header magic size  is in a tiny block with other (pos",
+      "failure to read optional header magic: %vfailure to read PE32+ optional header: %vMapIter.Value ",
+      "optional header size(%d) is less minimum size (%d) for PE32+ optional headerMapIter.Next called ",
+      "optional header has unexpected Magic of 0x%xencoding alphabet contains newline characterencoding",
+      "optional header size(%d) is less minimum size (%d) of PE32 optional headeroptional header size(%",
+      "failure to read PE32 optional header: %vunexpected call to os.Exit(0) during testcan't call poin",
+      "failure to read PE32+ optional header: %vMapIter.Value called on exhausted iterator bytes; incom"
+     ]
+    }
+   ],
+   "n": 62
+  },
+  "findGatesKw": {
+   "head": [],
+   "n": 0
+  },
+  "isX64": true,
+  "machine": 34404,
+  "matchInText": [
+   {
+    "n": 0,
+    "pat": "85 C0 0F 94 ?? E8",
+    "rvas": []
+   },
+   {
+    "n": 1,
+    "pat": "84 C0 0F 94 ??",
+    "rvas": [
+     178735
+    ]
+   },
+   {
+    "n": 21760,
+    "pat": "CC CC CC CC CC CC CC CC",
+    "rvas": [
+     4199,
+     4200,
+     4201,
+     4202,
+     4203,
+     4204,
+     4205,
+     4206,
+     4207,
+     4208,
+     4209,
+     4210,
+     4211,
+     4212,
+     4213,
+     4214,
+     4215,
+     4216,
+     4449,
+     4450,
+     4451,
+     4452,
+     4453,
+     4454,
+     4455
+    ]
+   },
+   {
+    "n": 0,
+    "pat": "DE AD BE EF CA FE",
+    "rvas": []
+   }
+  ],
+  "nPdata": 1939,
+  "pdataHead": [
+   {
+    "begin": 4224,
+    "end": 4446
+   },
+   {
+    "begin": 4480,
+    "end": 4541
+   },
+   {
+    "begin": 4800,
+    "end": 4902
+   },
+   {
+    "begin": 4928,
+    "end": 5082
+   },
+   {
+    "begin": 5088,
+    "end": 5328
+   },
+   {
+    "begin": 5344,
+    "end": 6437
+   },
+   {
+    "begin": 6464,
+    "end": 6541
+   },
+   {
+    "begin": 6688,
+    "end": 6745
+   },
+   {
+    "begin": 6816,
+    "end": 6910
+   },
+   {
+    "begin": 6912,
+    "end": 8184
+   },
+   {
+    "begin": 8192,
+    "end": 10973
+   },
+   {
+    "begin": 11136,
+    "end": 11242
+   },
+   {
+    "begin": 11264,
+    "end": 11860
+   },
+   {
+    "begin": 14560,
+    "end": 15113
+   },
+   {
+    "begin": 15136,
+    "end": 15755
+   },
+   {
+    "begin": 15776,
+    "end": 16042
+   },
+   {
+    "begin": 16064,
+    "end": 16389
+   },
+   {
+    "begin": 16416,
+    "end": 17134
+   },
+   {
+    "begin": 17152,
+    "end": 17272
+   },
+   {
+    "begin": 17280,
+    "end": 17669
+   },
+   {
+    "begin": 17696,
+    "end": 18200
+   },
+   {
+    "begin": 18208,
+    "end": 18275
+   },
+   {
+    "begin": 18304,
+    "end": 18629
+   },
+   {
+    "begin": 18656,
+    "end": 18984
+   },
+   {
+    "begin": 19008,
+    "end": 19365
+   },
+   {
+    "begin": 19392,
+    "end": 19934
+   },
+   {
+    "begin": 19936,
+    "end": 20507
+   },
+   {
+    "begin": 20512,
+    "end": 20741
+   },
+   {
+    "begin": 20768,
+    "end": 21051
+   },
+   {
+    "begin": 21056,
+    "end": 21524
+   },
+   {
+    "begin": 21536,
+    "end": 22001
+   },
+   {
+    "begin": 22016,
+    "end": 22909
+   },
+   {
+    "begin": 22912,
+    "end": 23207
+   },
+   {
+    "begin": 23232,
+    "end": 23481
+   },
+   {
+    "begin": 23488,
+    "end": 25147
+   },
+   {
+    "begin": 25152,
+    "end": 25243
+   },
+   {
+    "begin": 25248,
+    "end": 25765
+   },
+   {
+    "begin": 25792,
+    "end": 26247
+   },
+   {
+    "begin": 26272,
+    "end": 27013
+   },
+   {
+    "begin": 27040,
+    "end": 28499
+   }
+  ],
+  "pdataSha": "0c2b176e68a83028cb53864baf073ed601eead7bd9cae1c245b4237e204650f1",
+  "ptrSize": 8,
+  "rawLen": 3003904,
+  "rawSha": "2b3ad9ee732e8cf1f1e511bdc8b4fc3d963e013a78b8556167b852dc63033ec0",
+  "rvaProbes": [
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 0,
+    "ok": false,
+    "rva": 0
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 1536,
+    "ok": true,
+    "rva": 4096
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 1536,
+    "ok": true,
+    "rva": 4096
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 1537,
+    "ok": true,
+    "rva": 4097
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 847952,
+    "ok": true,
+    "rva": 850512
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 0,
+    "ok": false,
+    "rva": 850513
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 0,
+    "ok": false,
+    "rva": 4294967295
+   },
+   {
+    "fnBegin": 8192,
+    "fnEnd": 10973,
+    "inFunc": true,
+    "off": 5632,
+    "ok": true,
+    "rva": 8192
+   },
+   {
+    "fnBegin": 0,
+    "fnEnd": 0,
+    "inFunc": false,
+    "off": 1044992,
+    "ok": true,
+    "rva": 1048576
+   }
+  ],
+  "sections": [
+   {
+    "dataLen": 846848,
+    "dataSha": "9867cdf3a5b6ed89f85b26be5dd97116b2c804257c58c4a4f236806124bf1088",
+    "fileoff": 1536,
+    "name": ".text",
+    "rawsize": 846848,
+    "rva": 4096,
+    "vsize": 846417
+   },
+   {
+    "dataLen": 1086464,
+    "dataSha": "0f50f7ac69f60a1820a6716477c08bff47115372d81a8177ce11211786e3784e",
+    "fileoff": 848384,
+    "name": ".rdata",
+    "rawsize": 1086464,
+    "rva": 851968,
+    "vsize": 1086352
+   },
+   {
+    "dataLen": 67072,
+    "dataSha": "33cc3763871acfe6b35c6cc63baa3ce113446cfee0510f95ac70eba0c9194a58",
+    "fileoff": 1934848,
+    "name": ".data",
+    "rawsize": 67072,
+    "rva": 1941504,
+    "vsize": 369864
+   },
+   {
+    "dataLen": 23552,
+    "dataSha": "b7eb1975e2c0faa0ed4e495fc3c09dbccaceb2b423f6930741186edc7ac91265",
+    "fileoff": 2001920,
+    "name": ".pdata",
+    "rawsize": 23552,
+    "rva": 2314240,
+    "vsize": 23268
+   },
+   {
+    "dataLen": 512,
+    "dataSha": "f80f87ebb32ce0ef200bf9a88e2a0af8e8da8fee283bbeb1f690764ab4d0e686",
+    "fileoff": 2025472,
+    "name": ".xdata",
+    "rawsize": 512,
+    "rva": 2338816,
+    "vsize": 168
+   },
+   {
+    "dataLen": 512,
+    "dataSha": "fb7bf682d27ba8920146a9b134a183cd2109b202916488b9b3a4f7d623f0b484",
+    "fileoff": 2025984,
+    "name": ".zdebug_abbrev",
+    "rawsize": 512,
+    "rva": 2342912,
+    "vsize": 340
+   },
+   {
+    "dataLen": 194048,
+    "dataSha": "440f142c0f952470b0339a76e282ca2a20ed1cad7b25c0087a5b37629d20ddf9",
+    "fileoff": 2026496,
+    "name": ".zdebug_line",
+    "rawsize": 194048,
+    "rva": 2347008,
+    "vsize": 193619
+   },
+   {
+    "dataLen": 37376,
+    "dataSha": "538b171d666933cf5c8aa3b8c6557b8338c13b4bff5d2617c2af58defa68c3d6",
+    "fileoff": 2220544,
+    "name": ".zdebug_frame",
+    "rawsize": 37376,
+    "rva": 2543616,
+    "vsize": 37290
+   },
+   {
+    "dataLen": 512,
+    "dataSha": "7bb8e8a3edeafda313c8f1a3a1d7e9ed32eeeb2a6581b36e797afd3c9043e91a",
+    "fileoff": 2257920,
+    "name": ".debug_gdb_scripts",
+    "rawsize": 512,
+    "rva": 2584576,
+    "vsize": 67
+   },
+   {
+    "dataLen": 344064,
+    "dataSha": "d93214cd9ce8fd7ad3b800dbf10155cdfc927875e491cf5f16569f12cedcb235",
+    "fileoff": 2258432,
+    "name": ".zdebug_info",
+    "rawsize": 344064,
+    "rva": 2588672,
+    "vsize": 343778
+   },
+   {
+    "dataLen": 148992,
+    "dataSha": "803da78c6a7d0142d3833d5b099e3f995b823d9ebe0e720b2514e5ca6efb0050",
+    "fileoff": 2602496,
+    "name": ".zdebug_loclists",
+    "rawsize": 148992,
+    "rva": 2932736,
+    "vsize": 148684
+   },
+   {
+    "dataLen": 81408,
+    "dataSha": "4018e313f5968ce3e38ee555abc3360f4170eca802843057421b8db968802451",
+    "fileoff": 2751488,
+    "name": ".zdebug_rnglists",
+    "rawsize": 81408,
+    "rva": 3084288,
+    "vsize": 81342
+   },
+   {
+    "dataLen": 5120,
+    "dataSha": "8a050b6fe1bf7e7628ceea55496f3cb0e950973cb1872bc17f783dafedea9767",
+    "fileoff": 2832896,
+    "name": ".zdebug_addr",
+    "rawsize": 5120,
+    "rva": 3166208,
+    "vsize": 4805
+   },
+   {
+    "dataLen": 1536,
+    "dataSha": "a70ac54535c167de92ff36e9b4699bfeaa183062bf0b73d85bf0f3a414815b94",
+    "fileoff": 2838016,
+    "name": ".idata",
+    "rawsize": 1536,
+    "rva": 3174400,
+    "vsize": 1370
+   },
+   {
+    "dataLen": 20480,
+    "dataSha": "b6698bb120d63a198a3e294af7a888a1beddc5b9cb7404c3e778adf86a02b6bf",
+    "fileoff": 2839552,
+    "name": ".reloc",
+    "rawsize": 20480,
+    "rva": 3178496,
+    "vsize": 20360
+   },
+   {
+    "dataLen": 143872,
+    "dataSha": "2f597a6f59cf249c132e884c7d788e9b04c785f5dc8ae8d19ccb359b8678dadb",
+    "fileoff": 2860032,
+    "name": ".symtab",
+    "rawsize": 143872,
+    "rva": 3198976,
+    "vsize": 143725
+   }
+  ],
+  "stringsInFunc": [
+   {
+    "begin": 4224,
+    "end": 4446,
+    "strings": null
+   },
+   {
+    "begin": 4480,
+    "end": 4541,
+    "strings": null
+   },
+   {
+    "begin": 4800,
+    "end": 4902,
+    "strings": null
+   },
+   {
+    "begin": 4928,
+    "end": 5082,
+    "strings": null
+   },
+   {
+    "begin": 5088,
+    "end": 5328,
+    "strings": null
+   },
+   {
+    "begin": 5344,
+    "end": 6437,
+    "strings": null
+   },
+   {
+    "begin": 6464,
+    "end": 6541,
+    "strings": null
+   },
+   {
+    "begin": 6688,
+    "end": 6745,
+    "strings": null
+   },
+   {
+    "begin": 6816,
+    "end": 6910,
+    "strings": null
+   },
+   {
+    "begin": 6912,
+    "end": 8184,
+    "strings": [
+     "GODEBUG: value \"DuplicateTokenExSetEntriesInAclWCreateNamedPipeWGetCurrentThreadGetModuleHandleW",
+     "\" not supported for cpu option \"slice bounds out of range [::%x]slice bounds out of range [:%x:]",
+     "GODEBUG: no value specified for \"skip everything and stop the walkGetVolumeNameForVolumeMountPoi",
+     "GODEBUG: can not enable \"GetSidIdentifierAuthorityGetFinalPathNameByHandleWgoroutine profile cle"
+    ]
+   },
+   {
+    "begin": 8192,
+    "end": 10973,
+    "strings": [
+     "ermsfsrmsse3avx2bmi1bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] = ",
+     "fsrmsse3avx2bmi1bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] =  pc=",
+     "pclmulqdqrwxrwxrwxntdll.dllpsapi.dlltimerSendpollCacheprofBlockstackpoolhchanLeafwbufSpansxRegAl",
+     "rdtscppopcntGetACPsysmontimersefenceselectleaked, not object       next= jobs= goid sweep  B -\u003e ",
+     "vpclmulqdqIsValidSidLogonUserWLockFileExReOpenFileNetUserAddNetUserDelNtOpenFileWSASocketWws2_32",
+     "popcntGetACPsysmontimersefenceselectleaked, not object       next= jobs= goid sweep  B -\u003e % util",
+     "sse3avx2bmi1bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] =  pc=: p=",
+     "sse41sse42ssse3defersweeptestRtestWexecWhchanexecRschedsudogtimergscanmheaptracepanicsleepgcing ",
+     "sse42ssse3defersweeptestRtestWexecWhchanexecRschedsudogtimergscanmheaptracepanicsleepgcing MB,  ",
+     "ssse3defersweeptestRtestWexecWhchanexecRschedsudogtimergscanmheaptracepanicsleepgcing MB,  got= ",
+     "avx2bmi1bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] =  pc=: p=cas1",
+     "bmi1bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] =  pc=: p=cas1cas2",
+     "bmi2allgallprootitabsbrkidledead is LEAFheapbase at Has  of ) =  \u003c==GOGC] =  pc=: p=cas1cas2cas3",
+     "avx512f\\\\.\\UNCforcegcallocmWcpuprofallocmRunknowngctraceIO waitrunningsyscallwaitingforevernetwo",
+     "avx512cdavx512bwavx512dqavx512vlscavengepollDescsynctesttraceBufdeadlockraceFinipanicnilcgocheck",
+     "avx512bwavx512dqavx512vlscavengepollDescsynctesttraceBufdeadlockraceFinipanicnilcgocheckrunnable",
+     "avx512dqavx512vlscavengepollDescsynctesttraceBufdeadlockraceFinipanicnilcgocheckrunnable is not ",
+     "avx512vlscavengepollDescsynctesttraceBufdeadlockraceFinipanicnilcgocheckrunnable is not  pointer"
+    ]
+   },
+   {
+    "begin": 11136,
+    "end": 11242,
+    "strings": null
+   },
+   {
+    "begin": 11264,
+    "end": 11860,
+    "strings": null
+   },
+   {
+    "begin": 14560,
+    "end": 15113,
+    "strings": null
+   },
+   {
+    "begin": 15136,
+    "end": 15755,
+    "strings": null
+   },
+   {
+    "begin": 15776,
+    "end": 16042,
+    "strings": [
+     "concurrent map read and map writetable must have positive capacityleafCounts[maxBits][maxBits] !"
+    ]
+   },
+   {
+    "begin": 16064,
+    "end": 16389,
+    "strings": null
+   },
+   {
+    "begin": 16416,
+    "end": 17134,
+    "strings": [
+     "small map with no empty slot (concurrent map writes?)runtime.m memory alignment too small for sp"
+    ]
+   },
+   {
+    "begin": 17152,
+    "end": 17272,
+    "strings": null
+   },
+   {
+    "begin": 17280,
+    "end": 17669,
+    "strings": null
+   },
+   {
+    "begin": 17696,
+    "end": 18200,
+    "strings": null
+   },
+   {
+    "begin": 18208,
+    "end": 18275,
+    "strings": [
+     "hash of unhashable type: unexpected key value typeExpandEnvironmentStringsW(not in a .pdata func"
+    ]
+   },
+   {
+    "begin": 18304,
+    "end": 18629,
+    "strings": [
+     "small map with no empty slot (concurrent map writes?)runtime.m memory alignment too small for sp"
+    ]
+   },
+   {
+    "begin": 18656,
+    "end": 18984,
+    "strings": [
+     "small map with no empty slot (concurrent map writes?)runtime.m memory alignment too small for sp"
+    ]
+   },
+   {
+    "begin": 19008,
+    "end": 19365,
+    "strings": [
+     "small map with no empty slot (concurrent map writes?)runtime.m memory alignment too small for sp"
+    ]
+   },
+   {
+    "begin": 19392,
+    "end": 19934,
+    "strings": null
+   },
+   {
+    "begin": 19936,
+    "end": 20507,
+    "strings": [
+     "small map with no empty slot (concurrent map writes?)runtime.m memory alignment too small for sp"
+    ]
+   },
+   {
+    "begin": 20512,
+    "end": 20741,
+    "strings": null
+   },
+   {
+    "begin": 20768,
+    "end": 21051,
+    "strings": null
+   },
+   {
+    "begin": 21056,
+    "end": 21524,
+    "strings": null
+   }
+  ]
+ }
+}

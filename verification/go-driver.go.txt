@@ -1,0 +1,394 @@
+package core
+
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"os"
+	"strings"
+	"testing"
+)
+
+// TestZZDumpGroundTruth is a driver, not an assertion. It records real Go values
+// for the JS port to be diffed against. Run with: go test -run TestZZDumpGroundTruth
+func TestZZDumpGroundTruth(t *testing.T) {
+	out := map[string]any{}
+
+	// ---- 1. ParsePattern / ParseBytes semantics -------------------------------
+	patInputs := []string{
+		"85 C0 ?? 0F", "85 C0", "??", "?", "", "   ", "85 ZZ", "0x85", "85 -1", "85 +1",
+		"FF", "ff", "Ff", "100", "0", "00", "000", "8", "85\tC0\n?? 0F", " 85  C0 ",
+		"85 C0 ?? 0F 94 ?? E8", "85 C0 0F 94 C3 E8", "GG", "1G", "85 ??C0", "?? ??",
+		"\u00a0", "85\u000bC0", "85\u3000C0", "0X85", " ", "\n", "85 C0 ", "-0",
+	}
+	patRes := []map[string]any{}
+	for _, s := range patInputs {
+		p, err := ParsePattern(s)
+		e := ""
+		if err != nil {
+			e = err.Error()
+		}
+		patRes = append(patRes, map[string]any{"in": s, "pat": p, "err": e})
+	}
+	out["parsePattern"] = patRes
+
+	byteInputs := []string{
+		"85 C0", "", "   ", "85 ZZ", "??", "0x85", "FF", "ff", "100", "0", "00",
+		"31 C0", "DE AD BE EF", "99 99", "CC", "85\tC0", " 85  C0 ", "-1", "+1", "1G",
+	}
+	byteRes := []map[string]any{}
+	for _, s := range byteInputs {
+		b, err := ParseBytes(s)
+		e := ""
+		if err != nil {
+			e = err.Error()
+		}
+		var arr []int
+		if b != nil {
+			arr = []int{}
+			for _, x := range b {
+				arr = append(arr, int(x))
+			}
+		}
+		byteRes = append(byteRes, map[string]any{"in": s, "bytes": arr, "err": e})
+	}
+	out["parseBytes"] = byteRes
+
+	// ---- 2. FindAll / Overlay -------------------------------------------------
+	findAll := []map[string]any{}
+	type fa struct {
+		pat  string
+		data []byte
+	}
+	for _, c := range []fa{
+		{"85 C0 ?? 0F", []byte{0x00, 0x85, 0xC0, 0x11, 0x0F, 0x85, 0xC0, 0x22, 0x0F, 0x90}},
+		{"90", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x90}},
+		{"??", []byte{1, 2, 3}},
+		{"?? ??", []byte{1, 2, 3}},
+		{"DE AD BE EF", []byte{0x90}},
+		{"85 C0", []byte{}},
+		{"85 C0", []byte{0x85}},
+		{"85 C0", []byte{0x85, 0xC0}},
+		{"00", []byte{0, 0, 0}},
+	} {
+		p, _ := ParsePattern(c.pat)
+		findAll = append(findAll, map[string]any{
+			"pat": c.pat, "data": c.data, "hits": p.FindAll(c.data),
+		})
+	}
+	out["findAll"] = findAll
+
+	overlays := []map[string]any{}
+	for _, c := range []struct {
+		pat  string
+		off  int
+		repl []byte
+	}{
+		{"85 C0 0F 94 ?? E8", 0, []byte{0x31, 0xC0}},
+		{"85 C0 0F 94 ?? E8", 4, []byte{0xAA, 0xBB}},
+		{"85 C0 0F 94 ?? E8", 5, []byte{0xAA, 0xBB, 0xCC}}, // runs past end
+		{"85 C0", 0, []byte{}},
+		{"80 ?? ?? ?? ?? ?? 00 75 ?? 80", 7, []byte{0xEB}},
+	} {
+		p, _ := ParsePattern(c.pat)
+		q := p.Overlay(c.off, c.repl)
+		overlays = append(overlays, map[string]any{
+			"pat": c.pat, "off": c.off, "repl": c.repl, "out": q, "origUnchanged": p,
+		})
+	}
+	out["overlay"] = overlays
+
+	// ---- 3. LoadConfig --------------------------------------------------------
+	cfg, src, err := LoadConfig("")
+	if err != nil {
+		t.Fatal(err)
+	}
+	cfgJSON, _ := json.Marshal(cfg)
+	out["loadConfigEmbedded"] = map[string]any{"src": src, "cfg": json.RawMessage(cfgJSON)}
+
+	_, src2, err2 := LoadConfig("definitely-does-not-exist.json")
+	e2 := ""
+	if err2 != nil {
+		e2 = err2.Error()
+	}
+	out["loadConfigMissingOverride"] = map[string]any{"src": src2, "err": e2}
+
+	badPath := t.TempDir() + "/bad.json"
+	_ = os.WriteFile(badPath, []byte("{not json"), 0o644)
+	_, src3, err3 := LoadConfig(badPath)
+	e3 := ""
+	if err3 != nil {
+		e3 = strings.Replace(err3.Error(), badPath, "<TMP>", -1)
+	}
+	out["loadConfigBadJSON"] = map[string]any{"srcIsPath": src3 == badPath, "err": e3}
+
+	// ---- 4. applySite / PatchImage on synthetic images ------------------------
+	type siteCase struct {
+		Name string
+		Text []byte
+		Site Site
+		Pd   bool
+	}
+	gate := Site{ID: "g", Find: "85 C0 0F 94 ?? E8", PatchOffset: 0, Expect: "85 C0", Replace: "31 C0", RequireInFunc: true, ExpectMatches: 1}
+	cases := []siteCase{
+		{"patch", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x11, 0x22, 0x33}, gate, true},
+		{"notfound", []byte{0x90, 0x90, 0x90, 0x90}, gate, true},
+		{"ambiguous", []byte{0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x00, 0x85, 0xC0, 0x0F, 0x94, 0xC1, 0xE8, 0x00}, gate, true},
+		{"expectMismatch", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, func() Site { s := gate; s.Expect = "99 99"; return s }(), true},
+		{"noPdata", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, gate, false},
+		{"badFind", []byte{0x90}, func() Site { s := gate; s.Find = "ZZ"; return s }(), true},
+		{"badExpect", []byte{0x90}, func() Site { s := gate; s.Expect = "ZZ"; return s }(), true},
+		{"badReplace", []byte{0x90}, func() Site { s := gate; s.Replace = "ZZ"; return s }(), true},
+		{"emptyExpect", []byte{0x90}, func() Site { s := gate; s.Expect = ""; s.Replace = ""; return s }(), true},
+		{"lenMismatch", []byte{0x90}, func() Site { s := gate; s.Expect = "85"; s.Replace = "31 C0"; return s }(), true},
+		{"offsetTooBig", []byte{0x90}, func() Site { s := gate; s.PatchOffset = 5; return s }(), true},
+		{"negOffset", []byte{0x90}, func() Site { s := gate; s.PatchOffset = -1; return s }(), true},
+		{"expectDisagrees", []byte{0x90}, func() Site { s := gate; s.Expect = "84 C0"; s.Replace = "31 C0"; return s }(), true},
+		{"anchorMissing", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, func() Site { s := gate; s.Anchor = "Nope Anchor"; return s }(), true},
+		{"defaultExpectMatches", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, func() Site { s := gate; s.ExpectMatches = 0; return s }(), true},
+		{"twoWantTwo", []byte{0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x00, 0x85, 0xC0, 0x0F, 0x94, 0xC1, 0xE8, 0x00}, func() Site { s := gate; s.ExpectMatches = 2; return s }(), true},
+		{"partialPatched", []byte{0x31, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x00, 0x31, 0xC0, 0x0F, 0x94, 0xC1, 0xE8, 0x00}, gate, true},
+		{"alreadyPatched", []byte{0x90, 0x31, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, gate, true},
+		{"noTextSection", nil, gate, true},
+	}
+	applyRes := []map[string]any{}
+	for _, c := range cases {
+		var img *Image
+		if c.Text == nil {
+			img = &Image{Raw: make([]byte, 64), Base: 0x140000000, PtrSize: 8}
+		} else {
+			img = synthImage(c.Text)
+			if !c.Pd {
+				img.pdata = nil
+			}
+		}
+		before := append([]byte(nil), img.Raw...)
+		r := applySite(img, img.Raw, c.Site)
+		applyRes = append(applyRes, map[string]any{
+			"name": c.Name, "status": string(r.Status), "count": r.Count,
+			"rvas": r.RVAs, "msg": r.Message,
+			"rawChanged": !bytesEqual(img.Raw, before),
+			"rawSha":     sha(img.Raw),
+		})
+	}
+	out["applySite"] = applyRes
+
+	// PatchImage transactional cases
+	piRes := []map[string]any{}
+	type piCase struct {
+		Name  string
+		Text  []byte
+		Sites []Site
+	}
+	for _, c := range []piCase{
+		{"discardOnAmbig", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x90},
+			[]Site{gate, {ID: "bad", Find: "90", PatchOffset: 0, Expect: "90", Replace: "CC", ExpectMatches: 1}}},
+		{"discardOnNotFound", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x11},
+			[]Site{gate, {ID: "missing", Find: "DE AD BE EF", PatchOffset: 0, Expect: "DE", Replace: "FF", ExpectMatches: 1}}},
+		{"allGood", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x11}, []Site{gate}},
+		{"allAlready", []byte{0x90, 0x31, 0xC0, 0x0F, 0x94, 0xC3, 0xE8, 0x11}, []Site{gate}},
+		{"noSites", []byte{0x90, 0x85, 0xC0, 0x0F, 0x94, 0xC3, 0xE8}, []Site{}},
+	} {
+		img := synthImage(c.Text)
+		before := append([]byte(nil), img.Raw...)
+		results, patched, changed := PatchImage(img, Game{Sites: c.Sites})
+		st := []map[string]any{}
+		for _, r := range results {
+			st = append(st, map[string]any{"id": r.Site.ID, "status": string(r.Status), "count": r.Count, "rvas": r.RVAs, "msg": r.Message})
+		}
+		piRes = append(piRes, map[string]any{
+			"name": c.Name, "changed": changed, "patchedNil": patched == nil,
+			"patchedSha": sha(patched), "results": st,
+			"rawUntouched": bytesEqual(img.Raw, before),
+		})
+	}
+	out["patchImage"] = piRes
+
+	// ---- 5. Real PE ground truth ---------------------------------------------
+	img, err := OpenImage("../../build/toolkit.exe")
+	if err != nil {
+		t.Fatal(err)
+	}
+	secs := []map[string]any{}
+	for _, s := range img.Sections {
+		secs = append(secs, map[string]any{
+			"name": s.Name, "rva": s.RVA, "vsize": s.VSize, "fileoff": s.FileOff, "rawsize": s.RawSize,
+			"dataSha": sha(img.Bytes(s)), "dataLen": len(img.Bytes(s)),
+		})
+	}
+	pd := []map[string]any{}
+	for i, f := range img.pdata {
+		if i < 40 {
+			pd = append(pd, map[string]any{"begin": f.Begin, "end": f.End})
+		}
+	}
+	pdBlob := ""
+	for _, f := range img.pdata {
+		pdBlob += fmt.Sprintf("%d:%d;", f.Begin, f.End)
+	}
+
+	text := img.Text()
+	rvaProbes := []uint32{0, 0x1000, text.RVA, text.RVA + 1, text.RVA + text.VSize - 1, text.RVA + text.VSize, 0xFFFFFFFF, 0x2000, 0x100000}
+	rvaOut := []map[string]any{}
+	for _, r := range rvaProbes {
+		off, ok := img.RVAToFileOff(r)
+		fr, in := img.FuncContains(r)
+		rvaOut = append(rvaOut, map[string]any{
+			"rva": r, "off": off, "ok": ok, "inFunc": in, "fnBegin": fr.Begin, "fnEnd": fr.End,
+		})
+	}
+
+	anchors := []string{"Active Mod Count:", "runtime", "GOMAXPROCS", "toolkit", "", "nonexistent-anchor-xyz", "discover"}
+	anchorOut := []map[string]any{}
+	for _, a := range anchors {
+		if pmsg := panicMsgOf(func() { img.stringVAs(a) }); pmsg != "" {
+			anchorOut = append(anchorOut, map[string]any{"anchor": a, "panic": pmsg})
+			continue
+		}
+		vas := img.stringVAs(a)
+		xr := []uint32{}
+		for _, v := range vas {
+			xr = append(xr, img.leaXrefRVAs(v)...)
+		}
+		frs := img.FuncsReferencingString(a)
+		frsS := []map[string]any{}
+		for i, f := range frs {
+			if i < 20 {
+				frsS = append(frsS, map[string]any{"begin": f.Begin, "end": f.End})
+			}
+		}
+		vasTrim := []uint64{}
+		for i, v := range vas {
+			if i < 20 {
+				vasTrim = append(vasTrim, v)
+			}
+		}
+		xrTrim := []uint32{}
+		for i, v := range xr {
+			if i < 20 {
+				xrTrim = append(xrTrim, v)
+			}
+		}
+		anchorOut = append(anchorOut, map[string]any{
+			"anchor": a, "nVAs": len(vas), "vas": vasTrim, "nXrefs": len(xr), "xrefs": xrTrim,
+			"nFuncs": len(frs), "funcs": frsS,
+		})
+	}
+
+	// StringsInFunc over the first 30 pdata functions
+	sif := []map[string]any{}
+	for i, fr := range img.pdata {
+		if i >= 30 {
+			break
+		}
+		sif = append(sif, map[string]any{"begin": fr.Begin, "end": fr.End, "strings": img.StringsInFunc(fr)})
+	}
+
+	// MatchInText
+	mit := []map[string]any{}
+	for _, p := range []string{"85 C0 0F 94 ?? E8", "84 C0 0F 94 ??", "CC CC CC CC CC CC CC CC", "DE AD BE EF CA FE"} {
+		pp, _ := ParsePattern(p)
+		rv := img.MatchInText(pp)
+		trim := []uint32{}
+		for i, v := range rv {
+			if i < 25 {
+				trim = append(trim, v)
+			}
+		}
+		mit = append(mit, map[string]any{"pat": p, "n": len(rv), "rvas": trim})
+	}
+
+	// FindGates
+	gk := []string{"chievement", "ronman", "hecksum", "mod count", "andatory", "gameapplication", "application.cpp", "dlc count"}
+	gAll := img.FindGates(nil)
+	gKw := img.FindGates(gk)
+	gAllTrim := []map[string]any{}
+	for i, c := range gAll {
+		if i >= 25 {
+			break
+		}
+		gAllTrim = append(gAllTrim, map[string]any{"rva": c.RVA, "bytes": c.Bytes, "fnBegin": c.Func.Begin, "fnEnd": c.Func.End, "nStrings": len(c.Strings), "strings": trimS(c.Strings, 8)})
+	}
+	gKwTrim := []map[string]any{}
+	for i, c := range gKw {
+		if i >= 25 {
+			break
+		}
+		gKwTrim = append(gKwTrim, map[string]any{"rva": c.RVA, "bytes": c.Bytes, "fnBegin": c.Func.Begin, "fnEnd": c.Func.End, "strings": trimS(c.Strings, 8)})
+	}
+
+	// cStringAt probes
+	cs := []map[string]any{}
+	rd := img.section(".rdata")
+	for _, d := range []uint64{0, img.Base, img.Base + uint64(text.RVA)} {
+		cs = append(cs, map[string]any{"va": d, "s": img.cStringAt(d)})
+	}
+	if rd != nil {
+		for _, off := range []uint32{0, 1, 16, 64, 256, 1024, 4096, 65536} {
+			va := img.Base + uint64(rd.RVA) + uint64(off)
+			cs = append(cs, map[string]any{"va": va, "s": img.cStringAt(va)})
+		}
+	}
+
+	out["pe"] = map[string]any{
+		"base": img.Base, "ptrSize": img.PtrSize, "machine": img.Machine, "isX64": img.IsX64(),
+		"rawLen": len(img.Raw), "rawSha": sha(img.Raw),
+		"sections": secs, "nPdata": len(img.pdata), "pdataHead": pd, "pdataSha": shaStr(pdBlob),
+		"rvaProbes": rvaOut, "anchors": anchorOut, "stringsInFunc": sif,
+		"matchInText": mit,
+		"findGatesAll": map[string]any{"n": len(gAll), "head": gAllTrim},
+		"findGatesKw":  map[string]any{"n": len(gKw), "head": gKwTrim},
+		"cStringAt":    cs,
+	}
+
+	// OpenImage error paths
+	oe := []map[string]any{}
+	for _, p := range []string{"does-not-exist.exe", "signatures.json", "."} {
+		_, e := OpenImage(p)
+		msg := ""
+		if e != nil {
+			msg = e.Error()
+		}
+		oe = append(oe, map[string]any{"path": p, "err": msg})
+	}
+	out["openImageErrors"] = oe
+
+	b, _ := json.MarshalIndent(out, "", " ")
+	dest := os.Getenv("UCP_TRUTH_OUT")
+	if dest == "" {
+		dest = "/tmp/go-truth.json"
+	}
+	if err := os.WriteFile(dest, b, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("wrote %s (%d bytes)", dest, len(b))
+}
+
+// panicMsgOf runs fn and returns the panic text, or "" if it did not panic.
+func panicMsgOf(fn func()) (msg string) {
+	defer func() {
+		if r := recover(); r != nil {
+			msg = fmt.Sprint(r)
+		}
+	}()
+	fn()
+	return ""
+}
+
+func sha(b []byte) string {
+	if b == nil {
+		return "<nil>"
+	}
+	h := sha256.Sum256(b)
+	return hex.EncodeToString(h[:])
+}
+
+func shaStr(s string) string { return sha([]byte(s)) }
+
+func trimS(s []string, n int) []string {
+	if len(s) > n {
+		return s[:n]
+	}
+	return s
+}

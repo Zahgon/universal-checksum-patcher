@@ -1,0 +1,122 @@
+{
+ "crafted_aux_ok.bin": {
+  "base": 1073741824,
+  "err": "",
+  "nPdata": 0,
+  "nSec": 1,
+  "panic": "",
+  "ptrSize": 8
+ },
+ "crafted_aux_unread.bin": {
+  "base": 0,
+  "err": "parse PE <F>: fail to read symbol table: 1 aux symbols unread",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_name_bad.bin": {
+  "base": 0,
+  "err": "parse PE <F>: strconv.Atoi: parsing \"abc\": invalid syntax",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_name_big.bin": {
+  "base": 0,
+  "err": "parse PE <F>: offset 9999995 is beyond the end of string table",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_name_neg.bin": {
+  "base": 0,
+  "err": "parse PE <F>: offset 4294967287 is beyond the end of string table",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_oh32_too_small.bin": {
+  "base": 0,
+  "err": "parse PE <F>: optional header size(50) is less minimum size (96) of PE32 optional header",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_oh64_too_small.bin": {
+  "base": 0,
+  "err": "parse PE <F>: optional header size(100) is less minimum size (112) for PE32+ optional header",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_ok.bin": {
+  "base": 1073741824,
+  "err": "",
+  "nPdata": 0,
+  "nSec": 1,
+  "panic": "",
+  "ptrSize": 8
+ },
+ "crafted_partial_datadir.bin": {
+  "base": 0,
+  "err": "parse PE <F>: failure to read data directories: unexpected EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_partial_fileheader.bin": {
+  "base": 0,
+  "err": "parse PE <F>: unexpected EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_partial_opthdr.bin": {
+  "base": 0,
+  "err": "parse PE <F>: failure to read PE32+ optional header: EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_partial_section.bin": {
+  "base": 0,
+  "err": "parse PE <F>: unexpected EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_partial_symbol.bin": {
+  "base": 0,
+  "err": "parse PE <F>: fail to read string table length: EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ },
+ "crafted_reloc_ok.bin": {
+  "base": 1073741824,
+  "err": "",
+  "nPdata": 0,
+  "nSec": 1,
+  "panic": "",
+  "ptrSize": 8
+ },
+ "crafted_reloc_past_eof.bin": {
+  "base": 0,
+  "err": "parse PE <F>: fail to read section relocations: unexpected EOF",
+  "nPdata": 0,
+  "nSec": 0,
+  "panic": "",
+  "ptrSize": 0
+ }
+}

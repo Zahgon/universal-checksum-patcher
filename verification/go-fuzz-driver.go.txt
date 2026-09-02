@@ -1,0 +1,255 @@
+package core
+
+import (
+	"encoding/binary"
+	"encoding/json"
+	"fmt"
+	"math/rand"
+	"os"
+	"testing"
+)
+
+// TestZZFuzzCorpus writes a corpus of mutated/truncated PE files plus Go's
+// OpenImage outcome for each, so the JS port can be diffed on malformed input.
+func TestZZFuzzCorpus(t *testing.T) {
+	dir := os.Getenv("UCP_FUZZ_DIR")
+	if dir == "" {
+		t.Skip("UCP_FUZZ_DIR not set")
+	}
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	base, err := os.ReadFile("../../build/toolkit.exe")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rng := rand.New(rand.NewSource(20240901))
+	type caseRec struct {
+		Name    string `json:"name"`
+		Err     string `json:"err"`
+		Panic   string `json:"panic"`
+		Base    uint64 `json:"base"`
+		PtrSize int    `json:"ptrSize"`
+		NSec    int    `json:"nSec"`
+		NPdata  int    `json:"nPdata"`
+	}
+	var recs []caseRec
+
+	emit := func(name string, data []byte) {
+		p := dir + "/" + name
+		if err := os.WriteFile(p, data, 0o644); err != nil {
+			t.Fatal(err)
+		}
+		rec := caseRec{Name: name}
+		func() {
+			defer func() {
+				if r := recover(); r != nil {
+					rec.Panic = fmt.Sprint(r)
+				}
+			}()
+			img, err := OpenImage(p)
+			if err != nil {
+				rec.Err = err.Error()
+				return
+			}
+			rec.Base, rec.PtrSize = img.Base, img.PtrSize
+			rec.NSec, rec.NPdata = len(img.Sections), len(img.pdata)
+		}()
+		// Paths differ between runs; compare only the message tail.
+		rec.Err = trimPath(rec.Err, p)
+		recs = append(recs, rec)
+	}
+
+	// Truncations at structurally interesting boundaries.
+	for _, n := range []int{0, 1, 2, 63, 95, 96, 97, 128, 200, 0x100, 0x140, 0x200, 0x400, 1024, 4096, 0x600, 0x1000, 65536, len(base) / 2, len(base) - 1} {
+		if n > len(base) {
+			continue
+		}
+		emit(fmt.Sprintf("trunc_%d.bin", n), append([]byte(nil), base[:n]...))
+	}
+
+	// Targeted header corruptions.
+	type mut struct {
+		name string
+		off  int
+		val  []byte
+	}
+	peOff := int(base[0x3c]) | int(base[0x3d])<<8 | int(base[0x3e])<<16 | int(base[0x3f])<<24
+	muts := []mut{
+		{"mz_broken", 0, []byte{'X', 'Y'}},
+		{"peoff_huge", 0x3c, []byte{0xff, 0xff, 0xff, 0x7f}},
+		{"peoff_neg", 0x3c, []byte{0xff, 0xff, 0xff, 0xff}},
+		{"pesig_broken", peOff, []byte{'P', 'X', 0, 0}},
+		{"machine_bad", peOff + 4, []byte{0x34, 0x12}},
+		{"machine_unknown", peOff + 4, []byte{0x00, 0x00}},
+		{"nsections_huge", peOff + 6, []byte{0xff, 0xff}},
+		{"symtab_huge", peOff + 8, []byte{0xff, 0xff, 0xff, 0x7f}},
+		{"nsymbols_huge", peOff + 12, []byte{0xff, 0xff, 0xff, 0x7f}},
+		{"optsize_zero", peOff + 16, []byte{0x00, 0x00}},
+		{"optsize_one", peOff + 16, []byte{0x01, 0x00}},
+		{"optsize_huge", peOff + 16, []byte{0xff, 0xff}},
+		{"optmagic_bad", peOff + 24, []byte{0x99, 0x99}},
+		{"optmagic_pe32", peOff + 24, []byte{0x0b, 0x01}},
+		{"nrvas_huge", peOff + 24 + 108, []byte{0xff, 0xff, 0xff, 0x7f}},
+	}
+	for _, m := range muts {
+		d := append([]byte(nil), base...)
+		if m.off+len(m.val) <= len(d) {
+			copy(d[m.off:], m.val)
+			emit(m.name+".bin", d)
+		}
+	}
+
+	// Random byte flips in the header region.
+	for i := 0; i < 60; i++ {
+		d := append([]byte(nil), base[:0x800]...)
+		for k := 0; k < 4; k++ {
+			d[rng.Intn(len(d))] = byte(rng.Intn(256))
+		}
+		emit(fmt.Sprintf("flip_%02d.bin", i), d)
+	}
+
+	// Pure random and degenerate inputs.
+	for i := 0; i < 20; i++ {
+		d := make([]byte, rng.Intn(4096))
+		rng.Read(d)
+		emit(fmt.Sprintf("rand_%02d.bin", i), d)
+	}
+	emit("all_zero.bin", make([]byte, 4096))
+	emit("mz_only.bin", append([]byte{'M', 'Z'}, make([]byte, 200)...))
+
+	// Hand-built PEs that hit exact structural boundaries: partial reads of
+	// whole-struct binary.Read calls, aux-symbol accounting, negative section
+	// name offsets, and relocation tables pointing past EOF.
+	for name, data := range craftedPEs() {
+		emit(name, data)
+	}
+
+	b, _ := json.MarshalIndent(recs, "", " ")
+	if err := os.WriteFile(dir+"/../go-fuzz-truth.json", b, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	t.Logf("wrote %d fuzz cases", len(recs))
+}
+
+func trimPath(s, p string) string {
+	out := ""
+	for i := 0; i < len(s); {
+		if i+len(p) <= len(s) && s[i:i+len(p)] == p {
+			out += "<F>"
+			i += len(p)
+			continue
+		}
+		out += string(s[i])
+		i++
+	}
+	return out
+}
+
+// craftedPEs builds minimal PE files that sit exactly on structural boundaries
+// in debug/pe, which random mutation of a real binary does not reliably reach.
+func craftedPEs() map[string][]byte {
+	const peOff = 0x80
+	out := map[string][]byte{}
+
+	// build assembles a PE with the given section headers and trailing bytes.
+	build := func(nsec uint16, optSize uint16, magic uint16, ptrSym, nSym uint32, sections []byte, tail []byte) []byte {
+		buf := make([]byte, peOff)
+		buf[0], buf[1] = 'M', 'Z'
+		binary.LittleEndian.PutUint32(buf[0x3c:], peOff)
+		buf = append(buf, 'P', 'E', 0, 0)
+		fh := make([]byte, 20)
+		binary.LittleEndian.PutUint16(fh[0:], 0x8664)
+		binary.LittleEndian.PutUint16(fh[2:], nsec)
+		binary.LittleEndian.PutUint32(fh[8:], ptrSym)
+		binary.LittleEndian.PutUint32(fh[12:], nSym)
+		binary.LittleEndian.PutUint16(fh[16:], optSize)
+		buf = append(buf, fh...)
+		oh := make([]byte, 240)
+		binary.LittleEndian.PutUint16(oh[0:], magic)
+		binary.LittleEndian.PutUint32(oh[24:], 0x40000000) // ImageBase lo
+		binary.LittleEndian.PutUint32(oh[108:], 16)        // NumberOfRvaAndSizes
+		buf = append(buf, oh...)
+		buf = append(buf, sections...)
+		buf = append(buf, tail...)
+		return buf
+	}
+
+	section := func(name string, nrelocs uint16, ptrRelocs uint32) []byte {
+		s := make([]byte, 40)
+		copy(s[0:8], name)
+		binary.LittleEndian.PutUint32(s[8:], 0x100)   // VirtualSize
+		binary.LittleEndian.PutUint32(s[12:], 0x1000) // VirtualAddress
+		binary.LittleEndian.PutUint32(s[16:], 0x200)  // SizeOfRawData
+		binary.LittleEndian.PutUint32(s[20:], 0x400)  // PointerToRawData
+		binary.LittleEndian.PutUint32(s[24:], ptrRelocs)
+		binary.LittleEndian.PutUint16(s[32:], nrelocs)
+		return s
+	}
+
+	pad := func(b []byte, n int) []byte {
+		for len(b) < n {
+			b = append(b, 0)
+		}
+		return b
+	}
+
+	full := build(1, 240, 0x20b, 0, 0, section(".text", 0, 0), nil)
+	out["crafted_ok.bin"] = pad(append([]byte(nil), full...), 0x600)
+
+	// Partial whole-struct reads: Go's binary.Read reports unexpected EOF.
+	out["crafted_partial_fileheader.bin"] = full[:peOff+4+8]
+	out["crafted_partial_opthdr.bin"] = full[:peOff+4+20+50]
+	out["crafted_partial_datadir.bin"] = full[:peOff+4+20+120]
+	out["crafted_partial_section.bin"] = full[:peOff+4+20+240+15]
+
+	// Optional-header size below each magic's minimum.
+	out["crafted_oh64_too_small.bin"] = pad(build(1, 100, 0x20b, 0, 0, section(".text", 0, 0), nil), 0x600)
+	out["crafted_oh32_too_small.bin"] = pad(build(1, 50, 0x10b, 0, 0, section(".text", 0, 0), nil), 0x600)
+
+	// Section names resolved through the COFF string table.
+	for label, nm := range map[string]string{"neg": "/-5", "bad": "/abc", "big": "/9999999"} {
+		strtab := make([]byte, 4)
+		binary.LittleEndian.PutUint32(strtab, 8)
+		strtab = append(strtab, 'h', 'i', 0, 0)
+		body := build(1, 240, 0x20b, uint32(peOff+4+20+240+40), 0, section(nm, 0, 0), strtab)
+		out["crafted_name_"+label+".bin"] = pad(body, 0x600)
+	}
+
+	// Aux-symbol accounting: a trailing symbol claiming an aux record that is
+	// absent leaves naux != 0, which Go rejects.
+	symOff := uint32(peOff + 4 + 20 + 240 + 40)
+	mkSyms := func(specs [][2]int) []byte {
+		var b []byte
+		for _, sp := range specs {
+			s := make([]byte, 18)
+			copy(s[0:8], "sym")
+			s[17] = byte(sp[0]) // NumberOfAuxSymbols
+			b = append(b, s...)
+			for i := 0; i < sp[1]; i++ {
+				b = append(b, make([]byte, 18)...)
+			}
+		}
+		return b
+	}
+	auxBad := mkSyms([][2]int{{0, 0}, {1, 0}})
+	strtab := make([]byte, 4)
+	binary.LittleEndian.PutUint32(strtab, 4)
+	out["crafted_aux_unread.bin"] = pad(build(1, 240, 0x20b, symOff, 2,
+		section(".text", 0, 0), append(auxBad, strtab...)), 0x600)
+	auxOK := mkSyms([][2]int{{1, 1}})
+	out["crafted_aux_ok.bin"] = pad(build(1, 240, 0x20b, symOff, 2,
+		section(".text", 0, 0), append(auxOK, strtab...)), 0x600)
+	out["crafted_partial_symbol.bin"] = build(1, 240, 0x20b, symOff, 2,
+		section(".text", 0, 0), make([]byte, 25))
+
+	// Relocations pointing past EOF, which Go's second pass rejects.
+	out["crafted_reloc_past_eof.bin"] = pad(build(1, 240, 0x20b, 0, 0,
+		section(".text", 100, 0x500), nil), 0x600)
+	relocs := make([]byte, 20)
+	out["crafted_reloc_ok.bin"] = pad(build(1, 240, 0x20b, 0, 0,
+		section(".text", 2, uint32(peOff+4+20+240+40)), relocs), 0x600)
+
+	return out
+}
